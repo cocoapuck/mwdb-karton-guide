@@ -66,7 +66,7 @@ The MWDB and Karton servers will be installed in the /opt directory so run the i
 
 `pip install mwdb-core`
 
-`chown sadmin:sadmin -R /opt/mwdb`
+`chown someadmin:someadmin -R /opt/mwdb`
 
 ##### Python venv for KARTON
 `mkdir /opt/karton`
@@ -79,7 +79,7 @@ The MWDB and Karton servers will be installed in the /opt directory so run the i
 
 `pip install karton-core karton-mwdb-reporter karton-classifier karton-asciimagic`
 
-`chown sadmin:sadmin -R /opt/karton`
+`chown someadmin:someadmin -R /opt/karton`
 
 TODO:
 `pip install karton-yaramatcher karton-unpacker`
@@ -112,7 +112,7 @@ Make executable and change owner
 
 `sudo chmod +x /opt/minio/bin/minio`
 
-`sudo chown sadmin:sadmin -R /opt/minio`
+`sudo chown someadmin:someadmin -R /opt/minio`
 
 Create a config file for Minio
 
@@ -143,8 +143,8 @@ AssertFileIsExecutable=/opt/minio/bin/minio
 [Service]
 WorkingDirectory=/opt/minio
 
-User=sadmin
-Group=sadmin
+User=someadmin
+Group=someadmin
 
 #PermissionsStartOnly=true
 
@@ -220,8 +220,8 @@ Description=MWDB-Core run app
 After=network.target
 
 [Service]
-User=sadmin
-Group=sadmin
+User=someadmin
+Group=someadmin
 WorkingDirectory=/opt/mwdb
 Environment="PATH=/opt/mwdb/.mwdb/bin"
 ExecStart=/opt/mwdb/.mwdb/bin/mwdb-core run
@@ -280,8 +280,8 @@ Description=Karton System
 After=network.target
 
 [Service]
-User=sadmin
-Group=sadmin
+User=someadmin
+Group=someadmin
 WorkingDirectory=/opt/karton
 Environment="PATH=/opt/karton/.karton/bin"
 ExecStart=/opt/karton/.karton/bin/karton-system
@@ -301,8 +301,8 @@ Description=Karton MWDB Reporter
 After=network.target
 
 [Service]
-User=sadmin
-Group=sadmin
+User=someadmin
+Group=someadmin
 WorkingDirectory=/opt/karton
 Environment="PATH=/opt/karton/.karton/bin"
 ExecStart=/opt/karton/.karton/bin/karton-mwdb-reporter
@@ -322,8 +322,8 @@ Description=Karton Classifier
 After=network.target
 
 [Service]
-User=sadmin
-Group=sadmin
+User=someadmin
+Group=someadmin
 WorkingDirectory=/opt/karton
 Environment="PATH=/opt/karton/.karton/bin"
 ExecStart=/opt/karton/.karton/bin/karton-classifier
@@ -343,8 +343,8 @@ Description=Karton ASCII MAgic
 After=network.target
 
 [Service]
-User=sadmin
-Group=sadmin
+User=someadmin
+Group=someadmin
 WorkingDirectory=/opt/karton
 Environment="PATH=/opt/karton/.karton/bin"
 ExecStart=/opt/karton/.karton/bin/karton-asciimagic
