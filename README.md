@@ -8,8 +8,9 @@ TODO:
 - Cert for web-servers
 - Review Minio-conf
 
+## Useful information and guides
 
-MWDB document:
+MWDB documentation:
 https://mwdb.readthedocs.io/en/latest/setup-and-configuration.html
 
 Training documentation:
