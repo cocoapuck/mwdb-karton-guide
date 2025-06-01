@@ -1,7 +1,7 @@
 #! /opt/karton/.karton/bin/python3
 
 # Inspiration from: https://github.com/CERT-Polska/karton-playground
-# Requires checksec binary to be installed
+# Requires checksec: pip install checksec.py
 
 
 from karton.core import Karton, Task, Resource
@@ -16,15 +16,6 @@ class Checksec(Karton):
     identity = "karton.checksec"
     filters = [{"type": "sample", "stage": "recognized"}]
 
-    def parse_results(self, input):
-        headings = ["RELRO", "STACK CANARY", "NX", "PIE", "RPATH", "RUNPATH", "Symbols", "FORTIFY", "Fortified", "Fortifiable","FILE"]
-        i = 0
-        parsed_text = ""
-        for column in input.split(','):
-            parsed_text += headings[i] + ": " + column + "\n"
-            i += 1
-        return parsed_text
-
     def process(self, task: Task) -> None:
         # Get the incoming sample
         sample_resource = task.get_resource("sample")
@@ -34,9 +25,8 @@ class Checksec(Karton):
 
         # Download the resource to a temporary file
         with sample_resource.download_temporary_file() as sample_file:
-            output = subprocess.check_output(["checksec", "--format=csv", f"--file={sample_file.name}"])
-            result = self.parse_results(output.decode("ascii"))
-
+            result = subprocess.check_output(["checksec", "-j", sample_file.name])
+            
         # Send our results for further processing or reporting
         task = Task(
             {"type": "sample", "stage": "analyzed"},
