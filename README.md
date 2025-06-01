@@ -68,6 +68,9 @@ The MWDB and Karton servers will be installed in the /opt directory so run the i
 
 `chown someadmin:someadmin -R /opt/mwdb`
 
+`deactivate`
+
+
 ##### Python venv for KARTON
 `mkdir /opt/karton`
 
@@ -80,6 +83,8 @@ The MWDB and Karton servers will be installed in the /opt directory so run the i
 `pip install karton-core karton-mwdb-reporter karton-classifier karton-asciimagic`
 
 `chown someadmin:someadmin -R /opt/karton`
+
+`deactivate`
 
 TODO:
 `pip install karton-yaramatcher karton-unpacker`
@@ -116,7 +121,7 @@ Make executable and change owner
 
 Create a config file for Minio
 
-`sudo nano /opt/minio/minio.conf`
+`nano /opt/minio/minio.conf`
 
 Content of mino.conf
 ```
