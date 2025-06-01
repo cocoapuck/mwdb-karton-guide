@@ -21,7 +21,7 @@ class Checksec(Karton):
         i = 0
         parsed_text = ""
         for column in input.split(','):
-            parsed_text += headings[i] + ":" + column + "\n"
+            parsed_text += headings[i] + ": " + column + "\n"
             i += 1
         return parsed_text
 
