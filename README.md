@@ -86,6 +86,11 @@ The MWDB and Karton servers will be installed in the /opt directory so run the i
 
 `deactivate`
 
+Exit sudo
+
+`exit`
+
+
 TODO:
 `pip install karton-yaramatcher karton-unpacker`
 
@@ -100,6 +105,7 @@ echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://pack
 ```
 
 Install Redis
+
 `sudo apt update`
 
 `sudo apt install redis`
@@ -108,9 +114,11 @@ Install Redis
 ## Install Minio (Required for Karton)
 
 Create directories
+
 `sudo mkdir /opt/minio /opt/minio/bin /opt/minio/data`
 
 Download binary
+
 `sudo wget https://dl.min.io/server/minio/release/linux-amd64/minio -O /opt/minio/bin/minio`
 
 Make executable and change owner
@@ -134,6 +142,7 @@ MINIO_ROOT_PASSWORD="miniokarton"
 ##### Configure Minio to run as a systemd service
 
 Create a service file
+
 `sudo nano /usr/lib/systemd/system/minio.service`
 
 Content of minio.service
@@ -172,6 +181,7 @@ WantedBy=multi-user.target
 ```
 
 Reload systemd deamon
+
 `sudo systemctl daemon-reload`
 
 Enable and start the service
@@ -398,6 +408,7 @@ sudo systemctl start karton-system karton-mwdb-reporter karton-classifier karton
 #### Install and configure NGINX as a proxy for MWDB web ui
 
 Remove default config and create a new config for MWDB
+
 `sudo rm /etc/nginx/sites-enabled/default`
 
 `sudo nano /etc/nginx/sites-enabled/mwdb`
@@ -415,6 +426,7 @@ server {
 ```
 
 Reload Nginx
+
 `sudo systemctl reload nginx`
 
 
