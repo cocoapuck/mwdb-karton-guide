@@ -96,7 +96,12 @@ Exit sudo
 
 
 TODO:
-`pip install karton-yaramatcher karton-unpacker`
+- karton-yaramatcher
+- karton-unpacker
+- karton-config-extractor
+- karton-autoit-ripper
+- karton-archive-extractor
+- karton-misp-pusher
 
 
 ## Install Redis (required for Karton)
