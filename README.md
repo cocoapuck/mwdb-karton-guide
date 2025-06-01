@@ -212,7 +212,7 @@ enable_karton = 1
 config_path = /opt/karton/karton.ini
 ```
 
-##### Configure MWDB to run as a systemd service
+##### Configure MWDB and Karton to run as a systemd service
 
 Create service file
 
@@ -239,17 +239,23 @@ PrivateTmp=true
 WantedBy=multi-user.target
 ```
 
-Reload systemd deamon
+## Configure MWDB to integrate with Karton
 
-`sudo systemctl daemon-reload`
+Login to the MWDB webinterface and go to Settings -> User -> Add user. Add a new user called `Karton`.
 
-Enable and start the service
-```
-sudo systemctl enable mwdb
-sudo systemctl start mwdb
-```
+Go to the Settings -> Access control and give karton all the required capabilities:
+- adding_tags
+- adding_comments
+- adding_parents
+- adding_all_attributes
+- adding_files
+- adding_configs
+- adding_blobs
+- unlimited_requests
+- karton_assign
 
-#### Karton
+Open to the `karton` account details and click on `Manage API keys` action to create an API key for this account. Click `Issue new API key` to create the key. Copy the key to paste in config file.
+
 Create a configuration file for Karton
 
 `nano /opt/karton/karton.ini`
@@ -265,7 +271,22 @@ bucket = karton
 [redis]
 host=localhost
 port=6379
+
+[mwdb]
+api_url = http://127.0.0.1/api/
+api_key = <paste the key here...>
 ```
+
+Reload systemd deamon
+
+`sudo systemctl daemon-reload`
+
+Enable and start the service
+```
+sudo systemctl enable mwdb
+sudo systemctl start mwdb
+```
+
 
 ##### Configure the Karton tools to run as systemd services
 
@@ -397,30 +418,6 @@ Reload Nginx
 `sudo systemctl reload nginx`
 
 
-## Configure MWDB to integrate with Karton
-
-Login to the MWDB webinterface and go to Settings -> User -> Add user. Add a new user called `Karton`.
-
-Go to the Settings -> Access control and give karton all the required capabilities:
-- adding_tags
-- adding_comments
-- adding_parents
-- adding_all_attributes
-- adding_files
-- adding_configs
-- adding_blobs
-- unlimited_requests
-- karton_assign
-
-Open to the `karton` account details and click on `Manage API keys` action to create an API key for this account. Click `Issue new API key` to create the key. Copy the key to paste in config file.
-
-Include the following lines in `/opt/karton/karton.ini`:
-
-```
-[mwdb]
-api_url = http://127.0.0.1/api/
-api_key = <paste the key here...>
-```
 
 
 
