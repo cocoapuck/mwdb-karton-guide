@@ -176,8 +176,8 @@ Reload systemd deamon
 
 Enable and start the service
 ```
-systemctl enable minio
-systemctl start minio
+sudo systemctl enable minio
+sudo systemctl start minio
 ```
 
 Login to minio-web ui (http://<your_ip_address:9001) and create a new bucket "karton".
