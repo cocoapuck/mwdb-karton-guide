@@ -1,0 +1,35 @@
+#! /opt/karton/.karton/bin/python3
+
+from karton.core import Karton, Task, Resource
+import subprocess
+
+
+class Clamav(Karton):
+    """
+    Runs a Clamav scan on the incoming sample and sets attribute based on result
+    """
+
+    identity = "karton.clamav"
+    filters = [{"type": "sample", "stage": "recognized"}]
+
+    def process(self, task: Task) -> None:
+        # Get the incoming sample
+        sample_resource = task.get_resource("sample")
+
+        # Log with self.log
+        self.log.info(f"Starting Clamav-scan on: {sample_resource.name}")
+
+        # Download the resource to a temporary file
+        with sample_resource.download_temporary_file() as sample_file:
+            output = subprocess.check_output(["clamscan", sample_file.name])
+
+        # Send our results for further processing or reporting
+        task = Task(
+            {"type": "sample", "stage": "analyzed"},
+            payload={"parent": sample_resource, "sample": Resource(f"clamav_{sample_resource.name}", output)},
+        )
+        self.send_task(task)
+
+
+if __name__ == "__main__":
+    Clamav.main()

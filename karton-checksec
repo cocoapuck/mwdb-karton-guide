@@ -1,0 +1,45 @@
+#! /opt/karton/.karton/bin/python3
+
+from karton.core import Karton, Task, Resource
+import subprocess
+
+
+class Checksec(Karton):
+    """
+    Runs the checksec utility on incoming samples
+    """
+
+    identity = "karton.checksec"
+    filters = [{"type": "sample", "stage": "recognized"}]
+
+    def parse_results(self, input):
+        headings = ["RELRO", "STACK CANARY", "NX", "PIE", "RPATH", "RUNPATH", "Symbols", "FORTIFY", "Fortified", "Fortifiable","FILE"]
+        i = 0
+        parsed_text = ""
+        for column in input.split(','):
+            parsed_text += headings[i] + ":" + column + "\n"
+            i += 1
+        return parsed_text
+
+    def process(self, task: Task) -> None:
+        # Get the incoming sample
+        sample_resource = task.get_resource("sample")
+
+        # Log with self.log
+        self.log.info(f"Starting checksec analysis on: {sample_resource.name}")
+
+        # Download the resource to a temporary file
+        with sample_resource.download_temporary_file() as sample_file:
+            output = subprocess.check_output(["checksec", "--format=csv", f"--file={sample_file.name}"])
+            result = self.parse_results(output.decode("ascii"))
+
+        # Send our results for further processing or reporting
+        task = Task(
+            {"type": "sample", "stage": "analyzed"},
+            payload={"parent": sample_resource, "sample": Resource(f"checksec_{sample_resource.name}", result)},
+        )
+        self.send_task(task)
+
+
+if __name__ == "__main__":
+    Checksec.main()
