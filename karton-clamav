@@ -1,5 +1,9 @@
 #! /opt/karton/.karton/bin/python3
 
+# Inspiration from: https://github.com/CERT-Polska/karton-playground
+# Requires clamav to be installed
+
+
 from karton.core import Karton, Task, Resource
 import subprocess
 
