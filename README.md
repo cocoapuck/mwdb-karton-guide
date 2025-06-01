@@ -2,11 +2,14 @@
 
 This setup is tested on Ubuntu 24.04 LTS and is intended for on-prem lab environments and should not be used on servers exposed to the internet. Review of hardening and security is needed.
 
+All services should run as a nonpriviliged user. In this guide this user is referred to "someadmin". Change this to your actual user.
+
 TODO:
-- Create a non-priv service user
-- Env-file for creds
-- Cert for web-servers
-- Review Minio-conf
+- Env-file or variables for creds to Minio, Postgres etc.
+- TLS-Cert for web-servers
+- Hardening
+- Guide for custom Karton service (eg. Clamav, checksec, strings) based on this: https://github.com/CERT-Polska/karton-playground
+
 
 ## Useful information and guides
 
