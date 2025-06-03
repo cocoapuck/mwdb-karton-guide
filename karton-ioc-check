@@ -1,0 +1,34 @@
+#! /opt/karton/.karton/bin/python3
+
+# Only for test - needs hardening
+
+
+from karton.core import Karton, Task, Resource
+import requests
+
+
+class AbuseCheck(Karton):
+    """
+    Checks the sha256sum at Abuse MalwareBazaar (local web API) on incoming samples 
+    """
+
+    identity = "karton.abuse-check"
+    filters = [{"type": "sample", "stage": "recognized"}]
+    url = "http://localhost:8081/api/malware/"
+
+    def process(self, task: Task) -> None:
+        sample_resource = task.get_resource("sample")
+        self.log.info(f"Checking sha256 at Abuse Malware Bazaar: {sample_resource.name}")
+
+        response = requests.get(self.url + sample_resource.sha256)
+        response.encoding = "utf-8"
+        data = response.text
+        
+        task = Task(
+            {"type": "sample", "stage": "analyzed"},
+            payload={"parent": sample_resource, "tags": ["malware-bazaar"], "sample": Resource(f"malware_bazaar_{sample_resource.name}", data)},
+        )
+        self.send_task(task)
+
+if __name__ == "__main__":
+    AbuseCheck.main()
