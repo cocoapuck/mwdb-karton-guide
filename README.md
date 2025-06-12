@@ -258,6 +258,31 @@ PrivateTmp=true
 WantedBy=multi-user.target
 ```
 
+## Install and configure NGINX as a proxy for MWDB web ui
+
+Remove default config and create a new config for MWDB
+
+`sudo rm /etc/nginx/sites-enabled/default`
+
+`sudo nano /etc/nginx/sites-enabled/mwdb`
+
+Contents of /etc/nginx/sites-enabled/mwdb
+
+```
+server {
+    listen 80;
+    server_name = mwdb;
+    location / {
+        proxy_pass http://localhost:5000;
+    }
+}
+```
+
+Reload Nginx
+
+`sudo systemctl reload nginx`
+
+
 ## Configure MWDB to integrate with Karton
 
 Login to the MWDB webinterface and go to Settings -> User -> Add user. Add a new user called `Karton`.
@@ -414,29 +439,6 @@ sudo systemctl enable karton-system karton-mwdb-reporter karton-classifier karto
 sudo systemctl start karton-system karton-mwdb-reporter karton-classifier karton-asciimagic
 ```
 
-#### Install and configure NGINX as a proxy for MWDB web ui
-
-Remove default config and create a new config for MWDB
-
-`sudo rm /etc/nginx/sites-enabled/default`
-
-`sudo nano /etc/nginx/sites-enabled/mwdb`
-
-Contents of /etc/nginx/sites-enabled/mwdb
-
-```
-server {
-    listen 80;
-    server_name = mwdb;
-    location / {
-        proxy_pass http://localhost:5000;
-    }
-}
-```
-
-Reload Nginx
-
-`sudo systemctl reload nginx`
 
 
 
