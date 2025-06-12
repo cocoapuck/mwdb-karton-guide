@@ -84,7 +84,7 @@ The MWDB and Karton servers will be installed in the /opt directory so run the i
 
 `source .karton/bin/activate`
 
-`pip install karton-core karton-mwdb-reporter karton-classifier karton-asciimagic`
+`pip install karton-core karton-mwdb-reporter karton-classifier karton-asciimagic karton-dashboard`
 
 `chown someadmin:someadmin -R /opt/karton`
 
@@ -339,9 +339,10 @@ Create service files
 
 ```
 sudo nano /usr/lib/systemd/system/karton-system.service
-sudo nano /usr/lib/systemd/system/karton-classifier.service
 sudo nano /usr/lib/systemd/system/karton-mwdb-reporter.service
+sudo nano /usr/lib/systemd/system/karton-classifier.service
 sudo nano /usr/lib/systemd/system/karton-asciimagic.service
+sudo nano /usr/lib/systemd/system/karton-dashboard.service
 ```
 
 Contents of karton-system.service
@@ -428,6 +429,28 @@ PrivateTmp=true
 WantedBy=multi-user.target
 ```
 
+Contents of karton-dashboard.service
+```
+[Unit]
+Description=Karton Dashboard
+After=network.target
+
+[Service]
+User=someadmin
+Group=someadmin
+WorkingDirectory=/opt/karton
+Environment="PATH=/opt/karton/.karton/bin"
+ExecStart=/opt/karton/.karton/bin/karton-dashboard run -h 0.0.0.0 -p 5001
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+```
+
+
 Reload systemd deamon
 
 `sudo systemctl daemon-reload`
@@ -435,11 +458,12 @@ Reload systemd deamon
 Enable and start the services
 
 ```
-sudo systemctl enable karton-system karton-mwdb-reporter karton-classifier karton-asciimagic
+sudo systemctl enable karton-system karton-mwdb-reporter karton-classifier karton-asciimagic karton-dashboard
 
-sudo systemctl start karton-system karton-mwdb-reporter karton-classifier karton-asciimagic
+sudo systemctl start karton-system karton-mwdb-reporter karton-classifier karton-asciimagic karton-dashboard
 ```
 
+The Karton dashboard should be accessible on http://<mwdb_url>:5001
 
 
 
