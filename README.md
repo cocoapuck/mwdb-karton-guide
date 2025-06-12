@@ -258,6 +258,17 @@ PrivateTmp=true
 WantedBy=multi-user.target
 ```
 
+Reload systemd deamon
+
+`sudo systemctl daemon-reload`
+
+Enable and start the service
+```
+sudo systemctl enable mwdb
+sudo systemctl start mwdb
+```
+
+
 ## Install and configure NGINX as a proxy for MWDB web ui
 
 Remove default config and create a new config for MWDB
@@ -319,16 +330,6 @@ port=6379
 [mwdb]
 api_url = http://127.0.0.1/api/
 api_key = <paste the key here...>
-```
-
-Reload systemd deamon
-
-`sudo systemctl daemon-reload`
-
-Enable and start the service
-```
-sudo systemctl enable mwdb
-sudo systemctl start mwdb
 ```
 
 
